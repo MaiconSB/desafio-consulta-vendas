@@ -1,5 +1,6 @@
 package com.devsuperior.dsmeta.repositories;
 
+<<<<<<< HEAD
 import com.devsuperior.dsmeta.dto.SaleMinDTO;
 import com.devsuperior.dsmeta.dto.SellerMinDTO;
 import com.devsuperior.dsmeta.entities.Seller;
@@ -31,4 +32,5 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
             "AND sa.date BETWEEN :minDate AND :maxDate",
             countQuery = "SELECT COUNT(s) FROM Seller s WHERE UPPER(s.name) LIKE UPPER(concat('%', :name, '%'))")
     Page<Seller> searchSeller(String name, LocalDate minDate, LocalDate maxDate, Pageable pageable);
+
 }

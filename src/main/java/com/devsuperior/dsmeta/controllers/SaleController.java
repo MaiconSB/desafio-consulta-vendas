@@ -1,5 +1,6 @@
 package com.devsuperior.dsmeta.controllers;
 
+<<<<<<< HEAD
 import com.devsuperior.dsmeta.dto.SellerMinDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import com.devsuperior.dsmeta.services.SaleService;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+
 @RestController
 @RequestMapping(value = "/sales")
 public class SaleController {
@@ -25,7 +27,6 @@ public class SaleController {
 		SaleMinDTO dto = service.findById(id);
 		return ResponseEntity.ok(dto);
 	}
-
 
 	@GetMapping(value = "/report")
 	public ResponseEntity<Page<SaleMinDTO>> getReport(@RequestParam (name = "name", defaultValue = "") String name,
