@@ -1,6 +1,6 @@
 package com.devsuperior.dsmeta.controllers;
 
-<<<<<<< HEAD
+
 import com.devsuperior.dsmeta.dto.SellerMinDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -10,9 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import com.devsuperior.dsmeta.dto.SaleMinDTO;
 import com.devsuperior.dsmeta.services.SaleService;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 
 @RestController
