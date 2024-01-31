@@ -38,15 +38,14 @@ public class SaleService {
 		return dto.map(x -> new SaleMinDTO(x));
 	}
 
-	public Page<SellerMinDTO> findSeller (String name, String minDate, String maxDate, Pageable pageable){
-
+	public Page<SellerMinDTO> findSeller(String name, String minDate, String maxDate, Pageable pageable) {
 		LocalDate convertedMinDate = (minDate != null && !minDate.isEmpty()) ?
 				LocalDate.parse(minDate, DateTimeFormatter.ISO_LOCAL_DATE) : LocalDate.now().minusYears(1L);
 		LocalDate convertedMaxDate = (maxDate != null && !maxDate.isEmpty()) ?
 				LocalDate.parse(maxDate, DateTimeFormatter.ISO_LOCAL_DATE) : LocalDate.now();
 
+		Page<Seller> sellers = repository.searchSeller(name, convertedMinDate, convertedMaxDate, pageable);
 
-		Page<Seller> dto = repository.searchSeller(name, convertedMinDate, convertedMaxDate,pageable);
-		return dto.map(x -> new SellerMinDTO(x));
+			return sellers.map(seller -> new SellerMinDTO(seller, convertedMinDate, convertedMaxDate));
 	}
 }

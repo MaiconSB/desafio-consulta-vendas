@@ -23,9 +23,8 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
     Page<Sale> searchSale(String name, LocalDate minDate, LocalDate maxDate, Pageable pageable);
 
     @Query(value = "SELECT s FROM Seller s " +
-            "LEFT JOIN s.sales sa " +
             "WHERE UPPER(s.name) LIKE UPPER(concat('%', :name, '%')) " +
-            "AND sa.date BETWEEN :minDate AND :maxDate",
+            "AND EXISTS (SELECT 1 FROM s.sales sa WHERE sa.date BETWEEN :minDate AND :maxDate)",
             countQuery = "SELECT COUNT(s) FROM Seller s WHERE UPPER(s.name) LIKE UPPER(concat('%', :name, '%'))")
     Page<Seller> searchSeller(String name, LocalDate minDate, LocalDate maxDate, Pageable pageable);
 
