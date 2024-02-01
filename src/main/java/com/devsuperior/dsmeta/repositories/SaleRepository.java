@@ -9,6 +9,7 @@ import com.devsuperior.dsmeta.entities.Sale;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface SaleRepository extends JpaRepository<Sale, Long> {
 
@@ -24,8 +25,9 @@ public interface SaleRepository extends JpaRepository<Sale, Long> {
 
     @Query(value = "SELECT s FROM Seller s " +
             "WHERE UPPER(s.name) LIKE UPPER(concat('%', :name, '%')) " +
-            "AND EXISTS (SELECT 1 FROM s.sales sa WHERE sa.date BETWEEN :minDate AND :maxDate)",
+            "AND EXISTS (SELECT 1 FROM s.sales sa WHERE sa.date BETWEEN :minDate AND :maxDate) " +
+            "ORDER BY s.name ASC",
             countQuery = "SELECT COUNT(s) FROM Seller s WHERE UPPER(s.name) LIKE UPPER(concat('%', :name, '%'))")
-    Page<Seller> searchSeller(String name, LocalDate minDate, LocalDate maxDate, Pageable pageable);
+    List<Seller> searchSeller(String name, LocalDate minDate, LocalDate maxDate);
 
 }

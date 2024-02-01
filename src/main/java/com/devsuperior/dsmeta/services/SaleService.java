@@ -2,7 +2,9 @@ package com.devsuperior.dsmeta.services;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.devsuperior.dsmeta.dto.SellerMinDTO;
 import com.devsuperior.dsmeta.entities.Seller;
@@ -27,25 +29,25 @@ public class SaleService {
 		return new SaleMinDTO(entity);
 	}
 
-	public Page<SaleMinDTO> findSale (String name, String minDate, String maxDate, Pageable pageable){
-
+	public Page<SaleMinDTO> findSale(String name, String minDate, String maxDate, Pageable pageable) {
 		LocalDate convertedMinDate = (minDate != null && !minDate.isEmpty()) ?
 				LocalDate.parse(minDate, DateTimeFormatter.ISO_LOCAL_DATE) : LocalDate.now().minusYears(1L);
 		LocalDate convertedMaxDate = (maxDate != null && !maxDate.isEmpty()) ?
 				LocalDate.parse(maxDate, DateTimeFormatter.ISO_LOCAL_DATE) : LocalDate.now();
 
-		Page<Sale> dto = repository.searchSale(name, convertedMinDate, convertedMaxDate,pageable);
-		return dto.map(x -> new SaleMinDTO(x));
+		Page<Sale> sales = repository.searchSale(name, convertedMinDate, convertedMaxDate, pageable);
+
+		return sales.map(sale -> new SaleMinDTO(sale));
 	}
 
-	public Page<SellerMinDTO> findSeller(String name, String minDate, String maxDate, Pageable pageable) {
+	public List<SellerMinDTO> findSeller(String name, String minDate, String maxDate) {
 		LocalDate convertedMinDate = (minDate != null && !minDate.isEmpty()) ?
 				LocalDate.parse(minDate, DateTimeFormatter.ISO_LOCAL_DATE) : LocalDate.now().minusYears(1L);
 		LocalDate convertedMaxDate = (maxDate != null && !maxDate.isEmpty()) ?
 				LocalDate.parse(maxDate, DateTimeFormatter.ISO_LOCAL_DATE) : LocalDate.now();
 
-		Page<Seller> sellers = repository.searchSeller(name, convertedMinDate, convertedMaxDate, pageable);
+		List<Seller> sellers = repository.searchSeller(name, convertedMinDate, convertedMaxDate);
 
-			return sellers.map(seller -> new SellerMinDTO(seller, convertedMinDate, convertedMaxDate));
+			return sellers.stream().map(seller -> new SellerMinDTO(seller, convertedMinDate, convertedMaxDate)).collect(Collectors.toList());
 	}
 }
